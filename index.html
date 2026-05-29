@@ -33,9 +33,10 @@
         color: var(--charcoal);
         overflow-x: hidden;
         min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
       }
 
-      /* --- Luxury Curtain Reveal Entrance Animation --- */
+      /* --- Fixed Mobile-Friendly Curtain Reveal --- */
       .curtain-layer {
         position: fixed;
         top: 0;
@@ -44,11 +45,15 @@
         height: 100%;
         background-color: var(--deep-wine);
         z-index: 9999;
-        transform-origin: top;
-        animation: curtainLift 1.6s cubic-bezier(0.85, 0, 0.15, 1) forwards;
         display: flex;
         justify-content: center;
         align-items: center;
+        /* Using hardware-accelerated translation instead of scaleY to fix mobile freeze */
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        will-change: transform;
+        animation: curtainSlideUp 1.4s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+        animation-delay: 0.6s;
       }
 
       .curtain-layer::after {
@@ -57,7 +62,8 @@
         color: var(--muted-gold);
         font-size: 3rem;
         letter-spacing: 10px;
-        animation: fadeOutUp 0.8s ease forwards 0.6s;
+        animation: fadeOutUpMobile 0.5s ease forwards;
+        animation-delay: 0.4s;
       }
 
       /* --- Split-Screen Editorial Layout --- */
@@ -66,7 +72,9 @@
         grid-template-columns: 1.1fr 0.9fr;
         min-height: 100vh;
         opacity: 0;
-        animation: fadeInPage 1s ease forwards 1.2s;
+        /* Smooth page fade-in synced with the curtain slide */
+        animation: fadeInPageMobile 0.8s ease-out forwards;
+        animation-delay: 1.1s;
       }
 
       @media (max-width: 992px) {
@@ -74,11 +82,11 @@
           grid-template-columns: 1fr;
         }
         .left-panel {
-          padding: 60px 30px !important;
+          padding: 50px 24px !important;
         }
         .right-panel {
-          min-height: 500px;
-          padding: 40px 20px !important;
+          min-height: 480px;
+          padding: 30px 16px !important;
         }
       }
 
@@ -115,7 +123,7 @@
         font-family: "Bodoni Moda", serif;
       }
 
-      /* --- Overlapping Interactive Art Frames --- */
+      /* --- Mobile Optimized Overlapping Frames --- */
       .right-panel {
         background-color: #f1ece1;
         position: relative;
@@ -128,26 +136,31 @@
       .art-canvas {
         position: relative;
         width: 100%;
-        max-width: 450px;
-        height: 550px;
+        max-width: 420px;
+        height: 500px;
       }
 
       .frame {
         position: absolute;
-        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.1);
         border-radius: 4px;
         overflow: hidden;
         background: white;
-        padding: 12px 12px 40px 12px;
-        transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        padding: 12px 12px 35px 12px;
+        will-change: transform;
+        /* Using optimal ease timing for smoother mobile touch/hover responses */
+        transition:
+          transform 0.5s cubic-bezier(0.33, 1, 0.68, 1),
+          box-shadow 0.5s ease;
       }
 
       /* Front Illustration Position */
       .frame-primary {
-        width: 80%;
+        width: 78%;
         top: 0;
         left: 0;
         z-index: 2;
+        -webkit-transform: rotate(-3deg);
         transform: rotate(-3deg);
       }
 
@@ -157,30 +170,34 @@
         bottom: 0;
         right: 0;
         z-index: 1;
+        -webkit-transform: rotate(4deg);
         transform: rotate(4deg);
       }
 
       .frame img {
         width: 100%;
-        height: 320px;
+        height: 290px;
         object-fit: cover;
-        filter: sepia(10%) contrast(102%);
+        display: block;
       }
 
-      /* Elegant Hover Interlocking Swap Effect */
-      .art-canvas:hover .frame-primary {
-        transform: rotate(2deg) translate(15px, 15px);
+      /* Mobile Hover & Interaction Swaps */
+      .art-canvas:hover .frame-primary,
+      .art-canvas:active .frame-primary {
+        -webkit-transform: rotate(2deg) translate(10px, 10px);
+        transform: rotate(2deg) translate(10px, 10px);
         z-index: 1;
       }
 
-      .art-canvas:hover .frame-secondary {
-        transform: rotate(-4deg) translate(-15px, -15px);
+      .art-canvas:hover .frame-secondary,
+      .art-canvas:active .frame-secondary {
+        -webkit-transform: rotate(-4deg) translate(-10px, -10px);
+        transform: rotate(-4deg) translate(-10px, -10px);
         z-index: 2;
-        border-color: var(--muted-gold);
-        box-shadow: 0 40px 70px rgba(74, 21, 33, 0.15);
+        box-shadow: 0 30px 60px rgba(74, 21, 33, 0.18);
       }
 
-      /* --- Floating Event details Card --- */
+      /* --- Details Section --- */
       .details-shelf {
         border-top: 1px solid rgba(197, 160, 89, 0.3);
         margin-top: 20px;
@@ -193,6 +210,7 @@
       @media (max-width: 576px) {
         .details-shelf {
           grid-template-columns: 1fr;
+          gap: 20px;
         }
       }
 
@@ -210,11 +228,11 @@
         line-height: 1.5;
       }
 
-      /* --- Sleek Minimalist Countdown --- */
+      /* --- Sleek Mobile Countdown --- */
       .countdown-strip {
         background-color: var(--deep-wine);
         color: white;
-        padding: 25px;
+        padding: 20px;
         margin-top: 40px;
         border-radius: 6px;
         display: flex;
@@ -226,39 +244,35 @@
       .strip-unit span {
         display: block;
         font-family: "Bodoni Moda", serif;
-        font-size: 1.8rem;
+        font-size: 1.6rem;
         color: var(--muted-gold);
       }
 
       .strip-unit label {
-        font-size: 0.65rem;
+        font-size: 0.6rem;
         text-transform: uppercase;
         letter-spacing: 2px;
         opacity: 0.8;
       }
 
-      /* --- Keyframe Layout Control --- */
-      @keyframes curtainLift {
+      /* --- Core Fixed Keyframes for Mobile --- */
+      @keyframes curtainSlideUp {
         0% {
-          transform: scaleY(1);
-        }
-        40% {
-          transform: scaleY(1);
+          transform: translateY(0);
         }
         100% {
-          transform: scaleY(0);
-          visibility: hidden;
+          transform: translateY(-100%);
         }
       }
 
-      @keyframes fadeOutUp {
+      @keyframes fadeOutUpMobile {
         to {
           opacity: 0;
-          transform: translateY(-30px);
+          transform: translateY(-20px);
         }
       }
 
-      @keyframes fadeInPage {
+      @keyframes fadeInPageMobile {
         to {
           opacity: 1;
         }
@@ -266,8 +280,8 @@
     </style>
   </head>
   <body>
-    <!-- Curtain Opener Dynamic Experience -->
-    <div class="curtain-layer"></div>
+    <!-- Dynamic Opening Curtain -->
+    <div class="curtain-layer" id="curtain"></div>
 
     <div class="editorial-wrapper">
       <!-- Left Structural Column Info -->
@@ -290,7 +304,6 @@
           celebration of their beautiful new beginnings.
         </p>
 
-        <!-- Modern Asymmetric Metadata Grid -->
         <div class="details-shelf">
           <div class="shelf-item">
             <h4>The Date</h4>
@@ -316,7 +329,7 @@
           </div>
         </div>
 
-        <!-- Sleek Horizontal Counter Component -->
+        <!-- Countdown Module -->
         <div class="countdown-strip">
           <div class="strip-unit">
             <span id="days">00</span>
@@ -337,13 +350,13 @@
         </div>
       </section>
 
-      <!-- Right Structural Column Interactive Art Prints -->
+      <!-- Right Structural Column Artwork Frames -->
       <section class="right-panel">
         <div class="art-canvas">
           <!-- Couple Front Portrait Card Wrapper -->
           <div class="frame frame-primary">
             <img
-              src="image2.jpeg"
+              src="image1.jpeg"
               alt="Sathyapriyan & Sangeetha Front Facing Portrait"
             />
             <p
@@ -362,7 +375,7 @@
           <!-- Hand Ring Close-up Card Wrapper -->
           <div class="frame frame-secondary">
             <img
-              src="image1.jpeg"
+              src="image2.jpeg"
               alt="Sathyapriyan & Sangeetha Ring Exchange Close-up"
             />
             <p
@@ -381,10 +394,18 @@
       </section>
     </div>
 
-    <!-- ES6 Dynamic Time Machine Interface -->
+    <!-- ES6 Dynamic Clock & DOM Management Script -->
     <script>
       (() => {
-        // Milestone dynamic instantiation mapping
+        // Safe DOM Clean-Up: Removes curtain entirely after transition to enable clean mobile scrolling
+        const curtain = document.getElementById("curtain");
+        if (curtain) {
+          curtain.addEventListener("animationend", () => {
+            curtain.remove();
+          });
+        }
+
+        // Countdown Logic Engine
         const targetEpoch = new Date("June 24, 2026 09:00:00").getTime();
 
         const DOM = {
@@ -401,11 +422,10 @@
           if (delta <= 0) {
             clearInterval(clockInterval);
             document.querySelector(".countdown-strip").innerHTML =
-              `<p style="font-family: 'Bodoni Moda', serif; color: var(--muted-gold); font-size: 1.2rem; letter-spacing: 2px; width:100%; text-align:center;">The Celebration Has Begun</p>`;
+              `<p style="font-family: 'Bodoni Moda', serif; color: var(--muted-gold); font-size: 1.1rem; letter-spacing: 2px; width:100%; text-align:center;">The Celebration Has Begun</p>`;
             return;
           }
 
-          // Standardized modular segment mapping conversion
           const d = Math.floor(delta / (1000 * 60 * 60 * 24));
           const h = Math.floor(
             (delta % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
@@ -413,14 +433,12 @@
           const m = Math.floor((delta % (1000 * 60 * 60)) / (1000 * 60));
           const s = Math.floor((delta % (1000 * 60)) / 1000);
 
-          // Pad with modern twin-character rendering format safely using string manipulation
           DOM.days.textContent = String(d).padStart(2, "0");
           DOM.hours.textContent = String(h).padStart(2, "0");
           DOM.minutes.textContent = String(m).padStart(2, "0");
           DOM.seconds.textContent = String(s).padStart(2, "0");
         };
 
-        // Run process immediately inside browser runtime loop
         refreshClock();
         const clockInterval = setInterval(refreshClock, 1000);
       })();
