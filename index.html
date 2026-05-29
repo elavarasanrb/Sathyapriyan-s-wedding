@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=Montserrat:wght@300;400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=Montserrat:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
 
@@ -120,7 +120,99 @@
         font-family: "Bodoni Moda", serif;
       }
 
-      /* --- Mobile-Fixed Overlapping Canvas --- */
+      /* --- Event Switching Tab Styles --- */
+      .event-tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 25px;
+        border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+        padding-bottom: 10px;
+      }
+
+      .tab-btn {
+        background: none;
+        border: none;
+        font-family: "Montserrat", sans-serif;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 500;
+        color: #888;
+        padding: 6px 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .tab-btn.is-active {
+        color: var(--deep-wine);
+        font-weight: 600;
+      }
+
+      .tab-btn.is-active::after {
+        content: "";
+        position: absolute;
+        bottom: -11px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: var(--deep-wine);
+      }
+
+      /* --- Details Info Shelf & Card Swapping Layout --- */
+      .details-shelf {
+        position: relative;
+        min-height: 110px;
+        margin-top: 10px;
+      }
+
+      .event-content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease,
+          visibility 0.4s;
+      }
+
+      .event-content.is-active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        position: relative;
+      }
+
+      @media (max-width: 576px) {
+        .event-content {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+      }
+
+      .shelf-item h4 {
+        font-family: "Bodoni Moda", serif;
+        font-size: 1.2rem;
+        color: var(--deep-wine);
+        margin-bottom: 6px;
+        letter-spacing: 1px;
+      }
+
+      .shelf-item p {
+        font-size: 0.95rem;
+        color: #555;
+        line-height: 1.5;
+      }
+
+      /* --- Overlapping Canvas Artwork --- */
       .right-panel {
         background-color: #f1ece1;
         position: relative;
@@ -152,7 +244,6 @@
           box-shadow 0.6s ease;
       }
 
-      /* Base Default Setup (Frame 1 on Top) */
       .frame-primary {
         width: 78%;
         top: 0;
@@ -176,7 +267,6 @@
         display: block;
       }
 
-      /* Desktop Hover States */
       @media (min-width: 993px) {
         .art-canvas:hover .frame-primary {
           transform: rotate(2deg) translate(10px, 10px);
@@ -189,7 +279,6 @@
         }
       }
 
-      /* --- Mobile Tap Toggle States (Triggered via JS class) --- */
       .art-canvas.is-flipped .frame-primary {
         transform: rotate(2deg) translate(10px, 10px);
         z-index: 1;
@@ -201,37 +290,7 @@
         box-shadow: 0 30px 60px rgba(74, 21, 33, 0.18);
       }
 
-      /* --- Details & Countdown --- */
-      .details-shelf {
-        border-top: 1px solid rgba(197, 160, 89, 0.3);
-        margin-top: 20px;
-        padding-top: 40px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 30px;
-      }
-
-      @media (max-width: 576px) {
-        .details-shelf {
-          grid-template-columns: 1fr;
-          gap: 20px;
-        }
-      }
-
-      .shelf-item h4 {
-        font-family: "Bodoni Moda", serif;
-        font-size: 1.2rem;
-        color: var(--deep-wine);
-        margin-bottom: 8px;
-        letter-spacing: 1px;
-      }
-
-      .shelf-item p {
-        font-size: 0.95rem;
-        color: #555;
-        line-height: 1.5;
-      }
-
+      /* --- Countdown Strip --- */
       .countdown-strip {
         background-color: var(--deep-wine);
         color: white;
@@ -258,7 +317,7 @@
         opacity: 0.8;
       }
 
-      /* --- Keyframes --- */
+      /* --- Keyframe Layouts --- */
       @keyframes curtainSlideUp {
         0% {
           transform: translateY(0);
@@ -299,37 +358,73 @@
             line-height: 1.7;
             color: #444;
             max-width: 500px;
+            margin-bottom: 30px;
           "
         >
           Together with their families, joyfully invite you to share in the
           celebration of their beautiful new beginnings.
         </p>
 
+        <!-- Event Navigation System Tabs -->
+        <div class="event-tabs">
+          <button class="tab-btn is-active" data-target="reception">
+            The Reception
+          </button>
+          <button class="tab-btn" data-target="muhurtham">The Muhurtham</button>
+        </div>
+
+        <!-- Double Event Switching Shelf Container -->
         <div class="details-shelf">
-          <div class="shelf-item">
-            <h4>The Date</h4>
-            <p><strong>Wednesday, 24th June 2026</strong></p>
-            <p
-              style="
-                font-size: 0.85rem;
-                text-transform: uppercase;
-                letter-spacing: 1px;
-                color: var(--muted-gold);
-                margin-top: 2px;
-              "
-            >
-              Save the date
-            </p>
+          <!-- Layout 1: Reception Data Panel -->
+          <div class="event-content is-active" id="reception">
+            <div class="shelf-item">
+              <h4>The Date & Time</h4>
+              <p><strong>Tuesday, 23rd June 2026</strong></p>
+              <p
+                style="
+                  color: var(--muted-gold);
+                  font-weight: 500;
+                  margin-top: 2px;
+                "
+              >
+                Starts at 7:00 PM
+              </p>
+            </div>
+            <div class="shelf-item">
+              <h4>The Venue</h4>
+              <p style="font-weight: 600; color: var(--deep-wine)">
+                Madhurabai Wedding Hall
+              </p>
+              <p>Dharmapuri, Tamil Nadu</p>
+            </div>
           </div>
-          <div class="shelf-item">
-            <h4>The Venue</h4>
-            <p style="font-weight: 600; color: var(--deep-wine)">
-              Madhurabai Wedding Hall
-            </p>
-            <p>Dharmapuri, Tamil Nadu</p>
+
+          <!-- Layout 2: Muhurtham Data Panel (Updated Time Window) -->
+          <div class="event-content" id="muhurtham">
+            <div class="shelf-item">
+              <h4>The Date & Time</h4>
+              <p><strong>Wednesday, 24th June 2026</strong></p>
+              <p
+                style="
+                  color: var(--muted-gold);
+                  font-weight: 500;
+                  margin-top: 2px;
+                "
+              >
+                9:00 AM - 10:00 AM
+              </p>
+            </div>
+            <div class="shelf-item">
+              <h4>The Venue</h4>
+              <p style="font-weight: 600; color: var(--deep-wine)">
+                Madhurabai Wedding Hall
+              </p>
+              <p>Dharmapuri, Tamil Nadu</p>
+            </div>
           </div>
         </div>
 
+        <!-- Countdown (Targeting the start of celebrations: June 23rd) -->
         <div class="countdown-strip">
           <div class="strip-unit">
             <span id="days">00</span>
@@ -351,7 +446,6 @@
       </section>
 
       <section class="right-panel">
-        <!-- Added id and click handler access point to the art canvas -->
         <div class="art-canvas" id="artCanvas">
           <div class="frame frame-primary">
             <img
@@ -370,7 +464,6 @@
               The Union
             </p>
           </div>
-
           <div class="frame frame-secondary">
             <img
               src="image1.jpeg"
@@ -394,7 +487,7 @@
 
     <script>
       (() => {
-        // Curtain Cleanup Engine
+        // Curtain Cleanup
         const curtain = document.getElementById("curtain");
         if (curtain) {
           curtain.addEventListener("animationend", () => {
@@ -402,7 +495,7 @@
           });
         }
 
-        // Explicit JavaScript Mobile Click/Tap Toggle Layer
+        // Image Tap Toggle Layout Engine
         const artCanvas = document.getElementById("artCanvas");
         if (artCanvas) {
           artCanvas.addEventListener("click", () => {
@@ -410,8 +503,28 @@
           });
         }
 
-        // Countdown Engine
-        const targetEpoch = new Date("June 24, 2026 00:00:00").getTime();
+        // Tab Component Controller Logic
+        const tabButtons = document.querySelectorAll(".tab-btn");
+        const eventContents = document.querySelectorAll(".event-content");
+
+        tabButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const targetEventId = button.getAttribute("data-target");
+
+            // Reset active states
+            tabButtons.forEach((btn) => btn.classList.remove("is-active"));
+            eventContents.forEach((content) =>
+              content.classList.remove("is-active"),
+            );
+
+            // Assign new active layouts
+            button.classList.add("is-active");
+            document.getElementById(targetEventId).classList.add("is-active");
+          });
+        });
+
+        // Countdown Engine targeting the earliest celebration (Reception: June 23, 2026 19:00:00)
+        const targetEpoch = new Date("June 23, 2026 19:00:00").getTime();
 
         const DOM = {
           days: document.getElementById("days"),
