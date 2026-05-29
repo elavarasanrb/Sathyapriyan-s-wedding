@@ -36,7 +36,7 @@
         -webkit-font-smoothing: antialiased;
       }
 
-      /* --- Fixed Mobile-Friendly Curtain Reveal --- */
+      /* --- Curtain Reveal --- */
       .curtain-layer {
         position: fixed;
         top: 0;
@@ -48,7 +48,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        /* Using hardware-accelerated translation instead of scaleY to fix mobile freeze */
         -webkit-transform: translateY(0);
         transform: translateY(0);
         will-change: transform;
@@ -66,13 +65,12 @@
         animation-delay: 0.4s;
       }
 
-      /* --- Split-Screen Editorial Layout --- */
+      /* --- Split-Screen Layout --- */
       .editorial-wrapper {
         display: grid;
         grid-template-columns: 1.1fr 0.9fr;
         min-height: 100vh;
         opacity: 0;
-        /* Smooth page fade-in synced with the curtain slide */
         animation: fadeInPageMobile 0.8s ease-out forwards;
         animation-delay: 1.1s;
       }
@@ -85,12 +83,11 @@
           padding: 50px 24px !important;
         }
         .right-panel {
-          min-height: 480px;
+          min-height: 520px;
           padding: 30px 16px !important;
         }
       }
 
-      /* Left Content Panel */
       .left-panel {
         padding: 80px;
         display: flex;
@@ -123,7 +120,7 @@
         font-family: "Bodoni Moda", serif;
       }
 
-      /* --- Mobile Optimized Overlapping Frames --- */
+      /* --- Mobile-Fixed Overlapping Canvas --- */
       .right-panel {
         background-color: #f1ece1;
         position: relative;
@@ -138,6 +135,8 @@
         width: 100%;
         max-width: 420px;
         height: 500px;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
       }
 
       .frame {
@@ -147,30 +146,26 @@
         overflow: hidden;
         background: white;
         padding: 12px 12px 35px 12px;
-        will-change: transform;
-        /* Using optimal ease timing for smoother mobile touch/hover responses */
+        will-change: transform, z-index;
         transition:
-          transform 0.5s cubic-bezier(0.33, 1, 0.68, 1),
-          box-shadow 0.5s ease;
+          transform 0.6s cubic-bezier(0.33, 1, 0.68, 1),
+          box-shadow 0.6s ease;
       }
 
-      /* Front Illustration Position */
+      /* Base Default Setup (Frame 1 on Top) */
       .frame-primary {
         width: 78%;
         top: 0;
         left: 0;
         z-index: 2;
-        -webkit-transform: rotate(-3deg);
         transform: rotate(-3deg);
       }
 
-      /* Ring Exchange Illustration Position */
       .frame-secondary {
         width: 75%;
         bottom: 0;
         right: 0;
         z-index: 1;
-        -webkit-transform: rotate(4deg);
         transform: rotate(4deg);
       }
 
@@ -181,23 +176,32 @@
         display: block;
       }
 
-      /* Mobile Hover & Interaction Swaps */
-      .art-canvas:hover .frame-primary,
-      .art-canvas:active .frame-primary {
-        -webkit-transform: rotate(2deg) translate(10px, 10px);
+      /* Desktop Hover States */
+      @media (min-width: 993px) {
+        .art-canvas:hover .frame-primary {
+          transform: rotate(2deg) translate(10px, 10px);
+          z-index: 1;
+        }
+        .art-canvas:hover .frame-secondary {
+          transform: rotate(-4deg) translate(-10px, -10px);
+          z-index: 2;
+          box-shadow: 0 30px 60px rgba(74, 21, 33, 0.18);
+        }
+      }
+
+      /* --- Mobile Tap Toggle States (Triggered via JS class) --- */
+      .art-canvas.is-flipped .frame-primary {
         transform: rotate(2deg) translate(10px, 10px);
         z-index: 1;
       }
 
-      .art-canvas:hover .frame-secondary,
-      .art-canvas:active .frame-secondary {
-        -webkit-transform: rotate(-4deg) translate(-10px, -10px);
+      .art-canvas.is-flipped .frame-secondary {
         transform: rotate(-4deg) translate(-10px, -10px);
         z-index: 2;
         box-shadow: 0 30px 60px rgba(74, 21, 33, 0.18);
       }
 
-      /* --- Details Section --- */
+      /* --- Details & Countdown --- */
       .details-shelf {
         border-top: 1px solid rgba(197, 160, 89, 0.3);
         margin-top: 20px;
@@ -228,7 +232,6 @@
         line-height: 1.5;
       }
 
-      /* --- Sleek Mobile Countdown --- */
       .countdown-strip {
         background-color: var(--deep-wine);
         color: white;
@@ -255,7 +258,7 @@
         opacity: 0.8;
       }
 
-      /* --- Core Fixed Keyframes for Mobile --- */
+      /* --- Keyframes --- */
       @keyframes curtainSlideUp {
         0% {
           transform: translateY(0);
@@ -280,11 +283,9 @@
     </style>
   </head>
   <body>
-    <!-- Dynamic Opening Curtain -->
     <div class="curtain-layer" id="curtain"></div>
 
     <div class="editorial-wrapper">
-      <!-- Left Structural Column Info -->
       <section class="left-panel">
         <span class="tagline">The Honor of Your Presence</span>
         <h1 class="main-title">
@@ -329,7 +330,6 @@
           </div>
         </div>
 
-        <!-- Countdown Module -->
         <div class="countdown-strip">
           <div class="strip-unit">
             <span id="days">00</span>
@@ -350,14 +350,13 @@
         </div>
       </section>
 
-      <!-- Right Structural Column Artwork Frames -->
       <section class="right-panel">
-        <div class="art-canvas">
-          <!-- Couple Front Portrait Card Wrapper -->
+        <!-- Added id and click handler access point to the art canvas -->
+        <div class="art-canvas" id="artCanvas">
           <div class="frame frame-primary">
             <img
               src="image1.jpeg"
-              alt="Sathyapriyan & Sangeetha Front Facing Portrait"
+              alt="Sathyapriyan & Sangeetha Front Portrait"
             />
             <p
               style="
@@ -372,11 +371,10 @@
             </p>
           </div>
 
-          <!-- Hand Ring Close-up Card Wrapper -->
           <div class="frame frame-secondary">
             <img
               src="image2.jpeg"
-              alt="Sathyapriyan & Sangeetha Ring Exchange Close-up"
+              alt="Sathyapriyan & Sangeetha Ring Exchange"
             />
             <p
               style="
@@ -394,10 +392,9 @@
       </section>
     </div>
 
-    <!-- ES6 Dynamic Clock & DOM Management Script -->
     <script>
       (() => {
-        // Safe DOM Clean-Up: Removes curtain entirely after transition to enable clean mobile scrolling
+        // Curtain Cleanup Engine
         const curtain = document.getElementById("curtain");
         if (curtain) {
           curtain.addEventListener("animationend", () => {
@@ -405,8 +402,16 @@
           });
         }
 
-        // Countdown Logic Engine
-        const targetEpoch = new Date("June 24, 2026 09:00:00").getTime();
+        // Explicit JavaScript Mobile Click/Tap Toggle Layer
+        const artCanvas = document.getElementById("artCanvas");
+        if (artCanvas) {
+          artCanvas.addEventListener("click", () => {
+            artCanvas.classList.toggle("is-flipped");
+          });
+        }
+
+        // Countdown Engine
+        const targetEpoch = new Date("June 24, 2026 00:00:00").getTime();
 
         const DOM = {
           days: document.getElementById("days"),
