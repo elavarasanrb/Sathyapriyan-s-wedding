@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Wedding of Sathyapriyan & Sangeetha</title>
+    <!-- Google Fonts for Editorial Art-Direction Style -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=Montserrat:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* --- Core Theme & Variables --- */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --deep-wine: #4a1521;
+        --muted-gold: #c5a059;
+        --cream-silk: #f9f6f0;
+        --charcoal: #222222;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        background-color: var(--cream-silk);
+        color: var(--charcoal);
+        overflow-x: hidden;
+        min-height: 100vh;
+      }
+
+      /* --- Luxury Curtain Reveal Entrance Animation --- */
+      .curtain-layer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--deep-wine);
+        z-index: 9999;
+        transform-origin: top;
+        animation: curtainLift 1.6s cubic-bezier(0.85, 0, 0.15, 1) forwards;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .curtain-layer::after {
+        content: "S & S";
+        font-family: "Bodoni Moda", serif;
+        color: var(--muted-gold);
+        font-size: 3rem;
+        letter-spacing: 10px;
+        animation: fadeOutUp 0.8s ease forwards 0.6s;
+      }
+
+      /* --- Split-Screen Editorial Layout --- */
+      .editorial-wrapper {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        min-height: 100vh;
+        opacity: 0;
+        animation: fadeInPage 1s ease forwards 1.2s;
+      }
+
+      @media (max-width: 992px) {
+        .editorial-wrapper {
+          grid-template-columns: 1fr;
+        }
+        .left-panel {
+          padding: 60px 30px !important;
+        }
+        .right-panel {
+          min-height: 500px;
+          padding: 40px 20px !important;
+        }
+      }
+
+      /* Left Content Panel */
+      .left-panel {
+        padding: 80px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+      }
+
+      .tagline {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 6px;
+        color: var(--muted-gold);
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+
+      .main-title {
+        font-family: "Bodoni Moda", serif;
+        font-size: clamp(2.5rem, 5vw, 4.5rem);
+        line-height: 1.1;
+        color: var(--deep-wine);
+        margin-bottom: 30px;
+        font-weight: 400;
+      }
+
+      .main-title span {
+        font-style: italic;
+        color: var(--muted-gold);
+        font-family: "Bodoni Moda", serif;
+      }
+
+      /* --- Overlapping Interactive Art Frames --- */
+      .right-panel {
+        background-color: #f1ece1;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+      }
+
+      .art-canvas {
+        position: relative;
+        width: 100%;
+        max-width: 450px;
+        height: 550px;
+      }
+
+      .frame {
+        position: absolute;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+        border-radius: 4px;
+        overflow: hidden;
+        background: white;
+        padding: 12px 12px 40px 12px;
+        transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+
+      /* Front Illustration Position */
+      .frame-primary {
+        width: 80%;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        transform: rotate(-3deg);
+      }
+
+      /* Ring Exchange Illustration Position */
+      .frame-secondary {
+        width: 75%;
+        bottom: 0;
+        right: 0;
+        z-index: 1;
+        transform: rotate(4deg);
+      }
+
+      .frame img {
+        width: 100%;
+        height: 320px;
+        object-fit: cover;
+        filter: sepia(10%) contrast(102%);
+      }
+
+      /* Elegant Hover Interlocking Swap Effect */
+      .art-canvas:hover .frame-primary {
+        transform: rotate(2deg) translate(15px, 15px);
+        z-index: 1;
+      }
+
+      .art-canvas:hover .frame-secondary {
+        transform: rotate(-4deg) translate(-15px, -15px);
+        z-index: 2;
+        border-color: var(--muted-gold);
+        box-shadow: 0 40px 70px rgba(74, 21, 33, 0.15);
+      }
+
+      /* --- Floating Event details Card --- */
+      .details-shelf {
+        border-top: 1px solid rgba(197, 160, 89, 0.3);
+        margin-top: 20px;
+        padding-top: 40px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+      }
+
+      @media (max-width: 576px) {
+        .details-shelf {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .shelf-item h4 {
+        font-family: "Bodoni Moda", serif;
+        font-size: 1.2rem;
+        color: var(--deep-wine);
+        margin-bottom: 8px;
+        letter-spacing: 1px;
+      }
+
+      .shelf-item p {
+        font-size: 0.95rem;
+        color: #555;
+        line-height: 1.5;
+      }
+
+      /* --- Sleek Minimalist Countdown --- */
+      .countdown-strip {
+        background-color: var(--deep-wine);
+        color: white;
+        padding: 25px;
+        margin-top: 40px;
+        border-radius: 6px;
+        display: flex;
+        justify-content: space-around;
+        text-align: center;
+        box-shadow: 0 15px 35px rgba(74, 21, 33, 0.1);
+      }
+
+      .strip-unit span {
+        display: block;
+        font-family: "Bodoni Moda", serif;
+        font-size: 1.8rem;
+        color: var(--muted-gold);
+      }
+
+      .strip-unit label {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        opacity: 0.8;
+      }
+
+      /* --- Keyframe Layout Control --- */
+      @keyframes curtainLift {
+        0% {
+          transform: scaleY(1);
+        }
+        40% {
+          transform: scaleY(1);
+        }
+        100% {
+          transform: scaleY(0);
+          visibility: hidden;
+        }
+      }
+
+      @keyframes fadeOutUp {
+        to {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+      }
+
+      @keyframes fadeInPage {
+        to {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Curtain Opener Dynamic Experience -->
+    <div class="curtain-layer"></div>
+
+    <div class="editorial-wrapper">
+      <!-- Left Structural Column Info -->
+      <section class="left-panel">
+        <span class="tagline">The Honor of Your Presence</span>
+        <h1 class="main-title">
+          Sathyapriyan <br />
+          <span>&</span> Sangeetha
+        </h1>
+
+        <p
+          style="
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #444;
+            max-width: 500px;
+          "
+        >
+          Together with their families, joyfully invite you to share in the
+          celebration of their beautiful new beginnings.
+        </p>
+
+        <!-- Modern Asymmetric Metadata Grid -->
+        <div class="details-shelf">
+          <div class="shelf-item">
+            <h4>The Date</h4>
+            <p><strong>Wednesday, 24th June 2026</strong></p>
+            <p
+              style="
+                font-size: 0.85rem;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                color: var(--muted-gold);
+                margin-top: 2px;
+              "
+            >
+              Save the date
+            </p>
+          </div>
+          <div class="shelf-item">
+            <h4>The Venue</h4>
+            <p style="font-weight: 600; color: var(--deep-wine)">
+              Madhurabai Wedding Hall
+            </p>
+            <p>Dharmapuri, Tamil Nadu</p>
+          </div>
+        </div>
+
+        <!-- Sleek Horizontal Counter Component -->
+        <div class="countdown-strip">
+          <div class="strip-unit">
+            <span id="days">00</span>
+            <label>Days</label>
+          </div>
+          <div class="strip-unit">
+            <span id="hours">00</span>
+            <label>Hours</label>
+          </div>
+          <div class="strip-unit">
+            <span id="minutes">00</span>
+            <label>Mins</label>
+          </div>
+          <div class="strip-unit">
+            <span id="seconds">00</span>
+            <label>Secs</label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Structural Column Interactive Art Prints -->
+      <section class="right-panel">
+        <div class="art-canvas">
+          <!-- Couple Front Portrait Card Wrapper -->
+          <div class="frame frame-primary">
+            <img
+              src="image2.jpeg"
+              alt="Sathyapriyan & Sangeetha Front Facing Portrait"
+            />
+            <p
+              style="
+                font-family: &quot;Bodoni Moda&quot;, serif;
+                font-style: italic;
+                text-align: center;
+                margin-top: 15px;
+                color: var(--deep-wine);
+              "
+            >
+              The Union
+            </p>
+          </div>
+
+          <!-- Hand Ring Close-up Card Wrapper -->
+          <div class="frame frame-secondary">
+            <img
+              src="image1.jpeg"
+              alt="Sathyapriyan & Sangeetha Ring Exchange Close-up"
+            />
+            <p
+              style="
+                font-family: &quot;Bodoni Moda&quot;, serif;
+                font-style: italic;
+                text-align: center;
+                margin-top: 15px;
+                color: var(--deep-wine);
+              "
+            >
+              The Promise
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ES6 Dynamic Time Machine Interface -->
+    <script>
+      (() => {
+        // Milestone dynamic instantiation mapping
+        const targetEpoch = new Date("June 24, 2026 09:00:00").getTime();
+
+        const DOM = {
+          days: document.getElementById("days"),
+          hours: document.getElementById("hours"),
+          minutes: document.getElementById("minutes"),
+          seconds: document.getElementById("seconds"),
+        };
+
+        const refreshClock = () => {
+          const now = new Date().getTime();
+          const delta = targetEpoch - now;
+
+          if (delta <= 0) {
+            clearInterval(clockInterval);
+            document.querySelector(".countdown-strip").innerHTML =
+              `<p style="font-family: 'Bodoni Moda', serif; color: var(--muted-gold); font-size: 1.2rem; letter-spacing: 2px; width:100%; text-align:center;">The Celebration Has Begun</p>`;
+            return;
+          }
+
+          // Standardized modular segment mapping conversion
+          const d = Math.floor(delta / (1000 * 60 * 60 * 24));
+          const h = Math.floor(
+            (delta % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+          );
+          const m = Math.floor((delta % (1000 * 60 * 60)) / (1000 * 60));
+          const s = Math.floor((delta % (1000 * 60)) / 1000);
+
+          // Pad with modern twin-character rendering format safely using string manipulation
+          DOM.days.textContent = String(d).padStart(2, "0");
+          DOM.hours.textContent = String(h).padStart(2, "0");
+          DOM.minutes.textContent = String(m).padStart(2, "0");
+          DOM.seconds.textContent = String(s).padStart(2, "0");
+        };
+
+        // Run process immediately inside browser runtime loop
+        refreshClock();
+        const clockInterval = setInterval(refreshClock, 1000);
+      })();
+    </script>
+  </body>
+</html>
