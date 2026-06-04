@@ -38,8 +38,8 @@
         position: relative;
       }
 
-      /* --- Luxury Flower Petal Canvas --- */
-      #petal-container {
+      /* --- Luxury Falling Gold Glitter Canvas --- */
+      #glitter-container {
         position: fixed;
         top: 0;
         left: 0;
@@ -50,13 +50,11 @@
         overflow: hidden;
       }
 
-      .petal {
+      .glitter-spec {
         position: absolute;
-        background: linear-gradient(135deg, #ffccd5 0%, #f3e5ab 100%);
-        border-radius: 12% 88% 10% 90% / 10% 88% 12% 90%;
-        opacity: 0.8;
+        border-radius: 50%; /* Pristine reflective circular specs */
         will-change: transform;
-        animation: fall linear forwards;
+        animation: glitterFall linear forwards;
       }
 
       /* --- Curtain Reveal --- */
@@ -366,24 +364,33 @@
         }
       }
 
-      @keyframes fall {
+      /* Hardware Accelerated Glitter Tinkle Fall Animation with Opacity Shimmer Toggles */
+      @keyframes glitterFall {
         0% {
-          transform: translateY(-5vh) translateX(0) rotate(0deg);
+          transform: translateY(-5vh) translateX(0) scale(0.5);
           opacity: 0;
         }
         10% {
-          opacity: 0.9;
+          opacity: var(--max-opacity, 1);
+        }
+        50% {
+          /* Simulates dynamic wind drift shimmer */
+          opacity: 0.3;
+          transform: translateY(50vh) translateX(-25px) scale(1);
+        }
+        75% {
+          opacity: var(--max-opacity, 1);
         }
         100% {
-          transform: translateY(105vh) translateX(100px) rotate(720deg);
+          transform: translateY(105vh) translateX(30px) scale(0.4);
           opacity: 0;
         }
       }
     </style>
   </head>
   <body>
-    <!-- Layer Container for Falling Petals -->
-    <div id="petal-container"></div>
+    <!-- Layer Container for Falling Gold Glitter -->
+    <div id="glitter-container"></div>
 
     <div class="curtain-layer" id="curtain"></div>
 
@@ -484,7 +491,7 @@
       </section>
     </div>
 
-    <!-- Luxury Venue Section at the end of the page after the images -->
+    <!-- Luxury Venue Section at the end of the page -->
     <footer class="bottom-venue-section">
       <div class="venue-inner-frame">
         <h3>The Venue Location</h3>
@@ -533,39 +540,56 @@
           });
         }
 
-        // --- ES6 Flower Petal Fall Generator ---
-        const petalContainer = document.getElementById("petal-container");
-        const maxPetals = 25;
+        // --- ES6 Metallic Gold Glitter Engine ---
+        const glitterContainer = document.getElementById("glitter-container");
+        const maxGlitterSpecs = 45; // Increased density safely since dots are cheaper to render than path geometries
 
-        const createPetal = () => {
-          if (petalContainer.children.length >= maxPetals) return;
+        const createGlitterSpec = () => {
+          if (glitterContainer.children.length >= maxGlitterSpecs) return;
 
-          const petal = document.createElement("div");
-          petal.classList.add("petal");
+          const spec = document.createElement("div");
+          spec.classList.add("glitter-spec");
 
-          const size = Math.random() * 12 + 8;
-          petal.style.width = `${size}px`;
-          petal.style.height = `${size + Math.random() * 6}px`;
+          // Generate varied mini spec sizes
+          const diameter = Math.random() * 4 + 3; // Tight crisp specs between 3px and 7px
+          spec.style.width = `${diameter}px`;
+          spec.style.height = `${diameter}px`;
 
-          petal.style.left = `${Math.random() * 100}vw`;
+          // Horizontal distribution boundaries
+          spec.style.left = `${Math.random() * 100}vw`;
 
-          const duration = Math.random() * 5 + 5;
-          petal.style.animationDuration = `${duration}s`;
+          // Variety in falling speeds
+          const fallTime = Math.random() * 4 + 5; // Between 5s and 9s
+          spec.style.animationDuration = `${fallTime}s`;
 
-          const hue =
-            Math.random() > 0.5
-              ? "linear-gradient(135deg, #ffccd5 0%, #f3e5ab 100%)"
-              : "linear-gradient(135deg, #f3e5ab 0%, #ffb3c1 100%)";
-          petal.style.background = hue;
+          // Varied maximum opacity variables mapped to keyframe shimmers safely
+          const randOpacity = Math.random() * 0.5 + 0.5;
+          spec.style.setProperty("--max-opacity", randOpacity);
 
-          petalContainer.appendChild(petal);
+          // Premium mixed metallic gold spectrum hues (Deep pure 24k gold, pale white champagne glitter, metallic bronze)
+          const metallicGolds = [
+            "#D4AF37", // Metallic 24k Gold
+            "#F3E5AB", // Pale Champagne Shimmer
+            "#AA7C11", // Deep Antique Bronze
+            "#FFFDD0", // Bright Cream Twinkle
+          ];
+          const selectedGold =
+            metallicGolds[Math.floor(Math.random() * metallicGolds.length)];
+          spec.style.backgroundColor = selectedGold;
 
+          // Implements reflective drop shadow aura properties natively
+          spec.style.boxShadow = `0 0 ${Math.random() * 6 + 2}px ${selectedGold}`;
+
+          glitterContainer.appendChild(spec);
+
+          // Garbage collection lifecycle cleanup
           setTimeout(() => {
-            petal.remove();
-          }, duration * 1000);
+            spec.remove();
+          }, fallTime * 1000);
         };
 
-        setInterval(createPetal, 400);
+        // Loop pacing intervals setup
+        setInterval(createGlitterSpec, 180);
 
         // Countdown Engine targeting reception milestone (June 28, 2026 11:00:00)
         const targetEpoch = new Date("June 28, 2026 11:00:00").getTime();
