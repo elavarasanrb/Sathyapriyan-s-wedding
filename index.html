@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Wedding of Sathyapriyan & Sangeetha</title>
+    <title>The Wedding Celebration of Sathyapriyan & Sangeetha</title>
     <!-- Google Fonts for Editorial Art-Direction Style -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,6 +24,7 @@
         --deep-wine: #4a1521;
         --muted-gold: #c5a059;
         --cream-silk: #f9f6f0;
+        --champagne-gold: #f3e5ab;
         --charcoal: #222222;
       }
 
@@ -34,6 +35,28 @@
         overflow-x: hidden;
         min-height: 100vh;
         -webkit-font-smoothing: antialiased;
+        position: relative;
+      }
+
+      /* --- Luxury Flower Petal Canvas --- */
+      #petal-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 95;
+        overflow: hidden;
+      }
+
+      .petal {
+        position: absolute;
+        background: linear-gradient(135deg, #ffccd5 0%, #f3e5ab 100%);
+        border-radius: 12% 88% 10% 90% / 10% 88% 12% 90%;
+        opacity: 0.8;
+        will-change: transform;
+        animation: fall linear forwards;
       }
 
       /* --- Curtain Reveal --- */
@@ -65,14 +88,15 @@
         animation-delay: 0.4s;
       }
 
-      /* --- Split-Screen Layout --- */
+      /* --- Split-Screen Layout wrapper --- */
       .editorial-wrapper {
         display: grid;
         grid-template-columns: 1.1fr 0.9fr;
-        min-height: 100vh;
         opacity: 0;
         animation: fadeInPageMobile 0.8s ease-out forwards;
         animation-delay: 1.1s;
+        position: relative;
+        z-index: 2;
       }
 
       @media (max-width: 992px) {
@@ -80,11 +104,11 @@
           grid-template-columns: 1fr;
         }
         .left-panel {
-          padding: 50px 24px !important;
+          padding: 60px 24px 40px !important;
         }
         .right-panel {
           min-height: 520px;
-          padding: 30px 16px !important;
+          padding: 30px 16px 50px !important;
         }
       }
 
@@ -110,7 +134,7 @@
         font-size: clamp(2.5rem, 5vw, 4.5rem);
         line-height: 1.1;
         color: var(--deep-wine);
-        margin-bottom: 30px;
+        margin-bottom: 25px;
         font-weight: 400;
       }
 
@@ -120,96 +144,56 @@
         font-family: "Bodoni Moda", serif;
       }
 
-      /* --- Event Switching Tab Styles --- */
-      .event-tabs {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 25px;
-        border-bottom: 1px solid rgba(197, 160, 89, 0.2);
-        padding-bottom: 10px;
+      /* --- Unified Countdown & Details Block --- */
+      .unified-countdown-card {
+        background-color: var(--deep-wine);
+        color: white;
+        padding: 30px 24px 25px 24px;
+        border-radius: 8px;
+        box-shadow: 0 15px 35px rgba(74, 21, 33, 0.15);
+        margin-top: 15px;
+        text-align: center;
       }
 
-      .tab-btn {
-        background: none;
-        border: none;
-        font-family: "Montserrat", sans-serif;
-        font-size: 0.85rem;
+      .card-header-details {
+        border-bottom: 1px dashed rgba(243, 229, 171, 0.3);
+        padding-bottom: 18px;
+        margin-bottom: 20px;
+      }
+
+      .card-header-details h4 {
+        font-family: "Bodoni Moda", serif;
+        font-size: 1.4rem;
+        color: var(--muted-gold);
+        letter-spacing: 1px;
+        margin-bottom: 4px;
+      }
+
+      .card-header-details p {
+        font-size: 1rem;
+        font-weight: 400;
+        opacity: 0.95;
+      }
+
+      .clock-flex {
+        display: flex;
+        justify-content: space-around;
+        max-width: 360px;
+        margin: 0 auto;
+      }
+
+      .strip-unit span {
+        display: block;
+        font-family: "Bodoni Moda", serif;
+        font-size: 1.8rem;
+        color: var(--champagne-gold);
+      }
+
+      .strip-unit label {
+        font-size: 0.6rem;
         text-transform: uppercase;
         letter-spacing: 2px;
-        font-weight: 500;
-        color: #888;
-        padding: 6px 12px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        position: relative;
-        -webkit-tap-highlight-color: transparent;
-      }
-
-      .tab-btn.is-active {
-        color: var(--deep-wine);
-        font-weight: 600;
-      }
-
-      .tab-btn.is-active::after {
-        content: "";
-        position: absolute;
-        bottom: -11px;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background-color: var(--deep-wine);
-      }
-
-      /* --- Details Info Shelf & Card Swapping Layout --- */
-      .details-shelf {
-        position: relative;
-        min-height: 110px;
-        margin-top: 10px;
-      }
-
-      .event-content {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 30px;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(10px);
-        transition:
-          opacity 0.4s ease,
-          transform 0.4s ease,
-          visibility 0.4s;
-      }
-
-      .event-content.is-active {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-        position: relative;
-      }
-
-      @media (max-width: 576px) {
-        .event-content {
-          grid-template-columns: 1fr;
-          gap: 20px;
-        }
-      }
-
-      .shelf-item h4 {
-        font-family: "Bodoni Moda", serif;
-        font-size: 1.2rem;
-        color: var(--deep-wine);
-        margin-bottom: 6px;
-        letter-spacing: 1px;
-      }
-
-      .shelf-item p {
-        font-size: 0.95rem;
-        color: #555;
-        line-height: 1.5;
+        opacity: 0.75;
       }
 
       /* --- Overlapping Canvas Artwork --- */
@@ -290,31 +274,73 @@
         box-shadow: 0 30px 60px rgba(74, 21, 33, 0.18);
       }
 
-      /* --- Countdown Strip --- */
-      .countdown-strip {
+      /* --- Premium Bottom Full-Width Venue Section --- */
+      .bottom-venue-section {
         background-color: var(--deep-wine);
-        color: white;
-        padding: 20px;
-        margin-top: 40px;
-        border-radius: 6px;
-        display: flex;
-        justify-content: space-around;
+        padding: 60px 20px;
         text-align: center;
-        box-shadow: 0 15px 35px rgba(74, 21, 33, 0.1);
+        border-top: 1px solid var(--muted-gold);
+        position: relative;
+        z-index: 3;
+        opacity: 0;
+        animation: fadeInPageMobile 0.8s ease-out forwards;
+        animation-delay: 1.3s;
       }
 
-      .strip-unit span {
-        display: block;
+      .venue-inner-frame {
+        max-width: 600px;
+        margin: 0 auto;
+        border: 1px dashed rgba(243, 229, 171, 0.4);
+        padding: 40px 20px;
+        border-radius: 4px;
+      }
+
+      .venue-inner-frame h3 {
         font-family: "Bodoni Moda", serif;
         font-size: 1.6rem;
         color: var(--muted-gold);
+        margin-bottom: 12px;
+        letter-spacing: 2px;
       }
 
-      .strip-unit label {
-        font-size: 0.6rem;
+      .venue-inner-frame p {
+        font-size: 1rem;
+        color: #ffffff;
+        letter-spacing: 0.5px;
+        line-height: 1.6;
+        opacity: 0.95;
+      }
+
+      /* --- Elegant Gold Map Action Button --- */
+      .map-btn {
+        display: inline-flex;
+        align-items: center;
+        margin-top: 24px;
+        padding: 12px 24px;
+        background-color: transparent;
+        border: 1px solid var(--muted-gold);
+        color: var(--champagne-gold);
+        font-family: "Montserrat", sans-serif;
+        font-size: 0.75rem;
+        font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 2px;
-        opacity: 0.8;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .map-btn:hover,
+      .map-btn:active {
+        background-color: var(--muted-gold);
+        color: var(--deep-wine);
+      }
+
+      .map-btn svg {
+        margin-right: 8px;
+        fill: currentColor;
+        transition: fill 0.3s ease;
       }
 
       /* --- Keyframe Layouts --- */
@@ -339,11 +365,29 @@
           opacity: 1;
         }
       }
+
+      @keyframes fall {
+        0% {
+          transform: translateY(-5vh) translateX(0) rotate(0deg);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.9;
+        }
+        100% {
+          transform: translateY(105vh) translateX(100px) rotate(720deg);
+          opacity: 0;
+        }
+      }
     </style>
   </head>
   <body>
+    <!-- Layer Container for Falling Petals -->
+    <div id="petal-container"></div>
+
     <div class="curtain-layer" id="curtain"></div>
 
+    <!-- Main Editorial Grid Split -->
     <div class="editorial-wrapper">
       <section class="left-panel">
         <span class="tagline">The Honor of Your Presence</span>
@@ -358,89 +402,44 @@
             line-height: 1.7;
             color: #444;
             max-width: 500px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
           "
         >
           Together with their families, joyfully invite you to share in the
-          celebration of their beautiful new beginnings.
+          celebration of their wedding reception.
         </p>
 
-        <!-- Event Navigation System Tabs -->
-        <div class="event-tabs">
-          <button class="tab-btn is-active" data-target="reception">
-            The Reception
-          </button>
-          <button class="tab-btn" data-target="muhurtham">The Muhurtham</button>
-        </div>
-
-        <!-- Double Event Switching Shelf Container -->
-        <div class="details-shelf">
-          <!-- Layout 1: Reception Data Panel -->
-          <div class="event-content is-active" id="reception">
-            <div class="shelf-item">
-              <h4>The Date & Time</h4>
-              <p><strong>Tuesday, 23rd June 2026</strong></p>
-              <p
-                style="
-                  color: var(--muted-gold);
-                  font-weight: 500;
-                  margin-top: 2px;
-                "
-              >
-                Starts at 7:00 PM
-              </p>
-            </div>
-            <div class="shelf-item">
-              <h4>The Venue</h4>
-              <p style="font-weight: 600; color: var(--deep-wine)">
-                Madhurabai Wedding Hall
-              </p>
-              <p>Dharmapuri, Tamil Nadu</p>
-            </div>
+        <!-- Unified Details & Countdown Card Block -->
+        <div class="unified-countdown-card">
+          <!-- Reception Details Integrated Inside -->
+          <div class="card-header-details">
+            <h4>The Wedding Reception</h4>
+            <p style="font-weight: 500; color: var(--champagne-gold)">
+              Sunday, 28th June 2026
+            </p>
+            <p style="font-size: 0.9rem; opacity: 0.85; margin-top: 2px">
+              11:00 AM - 2:00 PM
+            </p>
           </div>
 
-          <!-- Layout 2: Muhurtham Data Panel (Updated Time Window) -->
-          <div class="event-content" id="muhurtham">
-            <div class="shelf-item">
-              <h4>The Date & Time</h4>
-              <p><strong>Wednesday, 24th June 2026</strong></p>
-              <p
-                style="
-                  color: var(--muted-gold);
-                  font-weight: 500;
-                  margin-top: 2px;
-                "
-              >
-                9:00 AM - 10:00 AM
-              </p>
+          <!-- Ticking Clock Metrics -->
+          <div class="clock-flex">
+            <div class="strip-unit">
+              <span id="days">00</span>
+              <label>Days</label>
             </div>
-            <div class="shelf-item">
-              <h4>The Venue</h4>
-              <p style="font-weight: 600; color: var(--deep-wine)">
-                Madhurabai Wedding Hall
-              </p>
-              <p>Dharmapuri, Tamil Nadu</p>
+            <div class="strip-unit">
+              <span id="hours">00</span>
+              <label>Hours</label>
             </div>
-          </div>
-        </div>
-
-        <!-- Countdown (Targeting the start of celebrations: June 23rd) -->
-        <div class="countdown-strip">
-          <div class="strip-unit">
-            <span id="days">00</span>
-            <label>Days</label>
-          </div>
-          <div class="strip-unit">
-            <span id="hours">00</span>
-            <label>Hours</label>
-          </div>
-          <div class="strip-unit">
-            <span id="minutes">00</span>
-            <label>Mins</label>
-          </div>
-          <div class="strip-unit">
-            <span id="seconds">00</span>
-            <label>Secs</label>
+            <div class="strip-unit">
+              <span id="minutes">00</span>
+              <label>Mins</label>
+            </div>
+            <div class="strip-unit">
+              <span id="seconds">00</span>
+              <label>Secs</label>
+            </div>
           </div>
         </div>
       </section>
@@ -485,6 +484,37 @@
       </section>
     </div>
 
+    <!-- Luxury Venue Section at the end of the page after the images -->
+    <footer class="bottom-venue-section">
+      <div class="venue-inner-frame">
+        <h3>The Venue Location</h3>
+        <p
+          style="
+            font-weight: 600;
+            color: var(--champagne-gold);
+            font-size: 1.2rem;
+            margin-bottom: 6px;
+          "
+        >
+          LG Diamond Hall
+        </p>
+        <p>Post, Sirumugai, Tamil Nadu</p>
+
+        <a
+          class="map-btn"
+          href="https://maps.google.com?q=LG%20DIAMOND%20HALL,%20Post,%20Sirumugai,%20Tamil%20Nadu&ftid=0x3ba8ef874539070d:0xdb15300b7615f46a&entry=gps&shh=CAE&lucs=,94297699,94231188,94280568,47071704,100809209,94218641,94282134,100799872,94286869&g_st=iw"
+          target="_blank"
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24">
+            <path
+              d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
+            />
+          </svg>
+          Navigate Route Map
+        </a>
+      </div>
+    </footer>
+
     <script>
       (() => {
         // Curtain Cleanup
@@ -503,28 +533,42 @@
           });
         }
 
-        // Tab Component Controller Logic
-        const tabButtons = document.querySelectorAll(".tab-btn");
-        const eventContents = document.querySelectorAll(".event-content");
+        // --- ES6 Flower Petal Fall Generator ---
+        const petalContainer = document.getElementById("petal-container");
+        const maxPetals = 25;
 
-        tabButtons.forEach((button) => {
-          button.addEventListener("click", () => {
-            const targetEventId = button.getAttribute("data-target");
+        const createPetal = () => {
+          if (petalContainer.children.length >= maxPetals) return;
 
-            // Reset active states
-            tabButtons.forEach((btn) => btn.classList.remove("is-active"));
-            eventContents.forEach((content) =>
-              content.classList.remove("is-active"),
-            );
+          const petal = document.createElement("div");
+          petal.classList.add("petal");
 
-            // Assign new active layouts
-            button.classList.add("is-active");
-            document.getElementById(targetEventId).classList.add("is-active");
-          });
-        });
+          const size = Math.random() * 12 + 8;
+          petal.style.width = `${size}px`;
+          petal.style.height = `${size + Math.random() * 6}px`;
 
-        // Countdown Engine targeting the earliest celebration (Reception: June 23, 2026 19:00:00)
-        const targetEpoch = new Date("June 23, 2026 19:00:00").getTime();
+          petal.style.left = `${Math.random() * 100}vw`;
+
+          const duration = Math.random() * 5 + 5;
+          petal.style.animationDuration = `${duration}s`;
+
+          const hue =
+            Math.random() > 0.5
+              ? "linear-gradient(135deg, #ffccd5 0%, #f3e5ab 100%)"
+              : "linear-gradient(135deg, #f3e5ab 0%, #ffb3c1 100%)";
+          petal.style.background = hue;
+
+          petalContainer.appendChild(petal);
+
+          setTimeout(() => {
+            petal.remove();
+          }, duration * 1000);
+        };
+
+        setInterval(createPetal, 400);
+
+        // Countdown Engine targeting reception milestone (June 28, 2026 11:00:00)
+        const targetEpoch = new Date("June 28, 2026 11:00:00").getTime();
 
         const DOM = {
           days: document.getElementById("days"),
@@ -539,8 +583,8 @@
 
           if (delta <= 0) {
             clearInterval(clockInterval);
-            document.querySelector(".countdown-strip").innerHTML =
-              `<p style="font-family: 'Bodoni Moda', serif; color: var(--muted-gold); font-size: 1.1rem; letter-spacing: 2px; width:100%; text-align:center;">The Celebration Has Begun</p>`;
+            document.querySelector(".clock-flex").innerHTML =
+              `<p style="font-family: 'Bodoni Moda', serif; color: var(--champagne-gold); font-size: 1.1rem; letter-spacing: 2px; width:100%; text-align:center; padding-top: 5px;">The Celebration Has Begun</p>`;
             return;
           }
 
